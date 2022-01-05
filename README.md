@@ -1,14 +1,17 @@
 # Basic-Statistics-in-R
-Exploring Data
 
-Correlation and Regression
+Use a data matrix as the source of all the statistical analyzes. It is the overview of the data. However, make use of summaries of the data if one wants to present the findings to other people. One very good way to summarize is by making frequency tables. If necessary the quantitative variables can be recoded into ordinal ones.
 
-Probability
+## Exploring Data
 
-Probability Distributions
+## Correlation and Regression
 
-Sampling Distributions
+## Probability
 
-Confidence Intervals
+## Probability Distributions
 
-Significance Tests
+## Sampling Distributions
+
+## Confidence Intervals
+
+## Significance Tests
