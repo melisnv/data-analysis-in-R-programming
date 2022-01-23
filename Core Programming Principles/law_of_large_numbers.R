@@ -19,3 +19,4 @@ mean <- count / N*100
 # check if mean > e(x)
 
 mean
+hist(mean)
