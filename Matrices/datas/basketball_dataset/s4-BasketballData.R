@@ -1,13 +1,9 @@
 #Dear Student,
 #
 #Welcome to the world of Basketball Data!
-#I'm sure you will enjoy this section of the R Programming course.
 #
 #Instructions for this dataset:
-# Simply select ALL the lines in this script by pressing 
-# CTRL+A on Windows or CMND+A on a Mac and execute them
-# Once you have executed the commands the following objects
-# will be created:
+
 # Matrices:
 # - FieldGoalAttempts
 # - FieldGoals
@@ -17,7 +13,6 @@
 # Vectors:
 # - Players
 # - Seasons
-#We will go understand these inside the course.
 #
 #Sincerely,
 #Kirill Eremenko

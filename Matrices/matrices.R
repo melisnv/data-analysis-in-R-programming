@@ -39,5 +39,5 @@ D
 m <- matrix(1:9, 3, 3)
 m
 
-# usse which to get row and column containing the number 
+# use which to get row and column containing the number 
 which(m == 6, arr.ind = TRUE)

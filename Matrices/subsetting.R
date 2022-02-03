@@ -47,3 +47,21 @@ matplot(t(Data_Kobe), type = 'b', pch= 15:18, col=c(1:4,6))
 legend("bottomleft", inset = 0.01, legend = Players[1], 
        col=c(1:4,6), pch = 15:18, horiz = F, cex = 0.3)
 
+
+
+# default parameter row=1:10
+myfunc <- function(data,row = 1:10){
+  
+  Data <- data[row,, drop=F]
+  matplot(t(Data), type = 'b', pch = 15:18, col=c(1:4,6))
+  legend("bottomleft",inset = 0.01, cex = 0.3, horiz = F,
+         legend = Players[row], pch = 15:18, col = c(1:4,6))
+  
+}
+
+
+myfunc(Salary)
+myfunc(MinutesPlayed/Games,3)
+
+
+
