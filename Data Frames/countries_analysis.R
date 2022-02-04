@@ -57,7 +57,56 @@ data[,"Internet.users"] # these are the same way
 # levels provides access to the levels attribute of a variable.
 levels(stats$Income.Group)
 
+# ----------------------------------------------------------
+# basic operations
 
 
+stats[1:10,] # 10 rows,all the columns
+stats[1,]
+is.data.frame(stats[1,])
+
+stats[,1]
+is.data.frame(stats[,1]) #FALSE
+
+stats[,1,drop=F]
+is.data.frame(stats[,1,drop=F])
+
+# multiple columns
+head(stats)
+
+# adding a column
+stats$People_Rate <- stats$Birth.rate * stats$Internet.users
+head(stats)
+
+# removing a column
+stats$People_Rate <- NULL #removed
+head(stats,n=10)
+
+#----------------------------------------------------------
+# filtering dataframes
+
+filter <- stats$Internet.users < 20 # returned vector
+stats[filter,]
+
+
+filter2 <- stats[stats$Birth.rate > 40,]
+filter2
+
+filter3 <- stats[stats$Birth.rate > 40 & stats$Internet.users < 10,]
+filter3
+
+stats[stats$Income.Group == "High income",]
+
+# finding malta
+malta_country <- stats[stats$Country.Name == "Malta",]
+malta_country
+
+# countries whose second chr is 'a'
+specific_countries <- stats[substr(stats$Country.Name,2,2) == 'a',]
+specific_countries
+
+
+t_countries <- stats[substr(stats$Country.Code,1,1) == 'T',]
+t_countries
 
 
