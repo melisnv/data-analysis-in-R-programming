@@ -133,3 +133,109 @@ s = rbinom(1,30,0.5); s
 
 # --------------------------------------------
 # Loops
+# rexp(m, r)—Returns a vector of m random numbers having the exponential distribution
+t = numeric(500); t
+for (i in 1:500) {
+  t[i] = mean(rexp(25))
+}
+t
+
+hist(t)
+hist(t, prob=TRUE)
+# rescale the vertical axis of the histogram so that the area is 1,
+# and add a best fitting normal density curve
+u = seq(min(t),max(t),length=100)
+lines(u,dnorm(u,mean(t),sqrt(var(t))))
+
+hist(rexp(500))
+
+# --------------------------------------------
+# Reading data from files
+
+data = read.table(file = "./datas/mortality.txt", header=TRUE)
+head(data)
+tail(data)
+str(data)
+summary(data)
+
+dim(data) # the numbers of rows and columns in your data
+
+data$teen
+
+data$teen[4]
+data[,'teen'] # same with "data$teen"
+
+# filtering the data
+is.data.frame(data)
+
+data[data$teen >10,]
+data[1:5,3]
+
+# -----------------------------------------
+# Data types :
+# Basic data types in R include numeric for numbers, character for letters,
+# and factor for categories of nominal variables.
+
+labels = 1:10 ; labels
+sum(labels)
+typeof(labels) # integer
+
+
+# The vector 1:10 consists of the numbers 1 to 10 and labels is therefore of type numeric.
+# In order to use them as labels of a categorical variable, coerce it to type factor.
+# The function factor is used to encode a vector as a factor
+labels = as.factor(labels)
+sum(labels)
+# Error in Summary.factor(1:10, na.rm = FALSE) : 
+# ‘sum’ not meaningful for factors
+is.factor(labels) # TRUE
+
+# -----------------------------------------
+# Histograms and QQ-plots
+
+x = rnorm(30) ; x
+# Multiple graphs can be putted in a single plot by setting
+# some graphical parameters with the help of par() function.
+# The mfrow() parameter allows to split the screen in several panels. 
+par(mfrow=c(1,2))
+hist(x)
+qqnorm(x)
+
+
+hist(10*x+3)
+qqnorm(10*x+3)
+
+x = rnorm(10) ; x
+hist(x)
+qqnorm(x)
+
+x = runif(100) ; x
+hist(x)
+qqnorm(x)
+
+# The function rchisq samples from yet another population distribution, 
+# the chisquare distribution, in this case with 5 degrees of freedom.
+x = rchisq(30,5) ; x
+hist(x)
+qqnorm(x)
+
+
+# -----------------------------------------
+# Two-sample t-test:
+# Simulating possible outcomes of the two-sample
+# t-test for comparing, say, heights of men and women.
+
+n=30; m=30; mu=180; nu=175; sd=10
+x = rnorm(n,mu,sd) ; y = rnorm(m,nu,sd)
+t.test(x,y,var.equal = TRUE)
+t.test(x,y,var.equal = TRUE)[[3]]
+
+# The t.test command produces a small report on the test. 
+# This includes the p-value for testing the null hypothesis 
+# that the population means of the two populations are equal.
+# It also gives a confidence interval for the difference of the population means.
+
+n=m=30; mu=180; nu=175; sd=10; B=1000; p=numeric(B)
+for (b in 1:B) {x=rnorm(n,mu,sd); y=rnorm(m,nu,sd)
+p[b]=t.test(x,y,var.equal=TRUE)[[3]]}
+power=mean(p<0.05)
