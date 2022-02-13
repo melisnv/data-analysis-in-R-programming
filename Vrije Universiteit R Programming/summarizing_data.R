@@ -34,3 +34,6 @@ par(mfrow=c(1,3)) ; hist(teen_birth,main = "Teen Birth Rate") ; qqnorm(teen_birt
 
 cor(teen_birth,mortality)
 plot(x=teen_birth, y = mortality, xlab="Teen Birth Rate", ylab = "Mortality")
+
+# ---------------------------------------------------
+# Distributions t-test

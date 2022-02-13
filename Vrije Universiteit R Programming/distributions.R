@@ -36,6 +36,3 @@ boxplot(data$crime, main="Crime Rate", col = "orange",border = "red")
 
 qqnorm(data$expend, main = "Expend")
 qqnorm(data$crime,main="Crime Rate")
-
-
-
