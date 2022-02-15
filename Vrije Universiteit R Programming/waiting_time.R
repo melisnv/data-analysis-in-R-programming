@@ -20,8 +20,8 @@ qqnorm(data)
 mean.of.data <- mean(data) ; mean.of.data
 sd.of.data <- sd(data) ; sd.of.data
 
-# Construct a 97%-CI for mu. Evaluate the sample size needed to provide that the length 
-# of the 97%-CI is at most 2. Compute a bootstrap 97%-CI for mu and compare it to the above CI. 
+# Construct a 97%-CI for μ Evaluate the sample size needed to provide that the length 
+# of the 97%-CI is at most 2. Compute a bootstrap 97%-CI for μ and compare it to the above CI. 
 
 # p̂ = mu = 0.21 (mean of the data)
 # 1-p̂ = 0.79
@@ -33,7 +33,9 @@ minimal.sample.size # 5868.521
 
 # The sample size needed to provide that the length of the 97%-CI is at least 5869
 
-# Compute a bootstrap 97%-CI for mu and compare it to the above CI.
+# --------------------------------------------------------------------------------------------
+# a
+# Compute a bootstrap 97%-CI for μ and compare it to the above CI.
 # We use simulation to find the distribution of the estimating statistic T(X). random variable Tstar(T*)
 # confidence level for alpha=0.05 compute T*(1-alpha/2)= 0.975 T*(alpha/2)= 0.025 
 
@@ -54,7 +56,8 @@ c(2*mean.of.data - Tstar975, 2*mean.of.data - Tstar25) # computing (2T-T*(1-alph
 #     97.5%      2.5% 
 #  0.1419060 0.2850332
 
-
+# --------------------------------------------------------------------------------------------
+# b
 # t-test
 # The doctor claims that the mean waiting time is less than 15 minutes. 
 # Under an assumption, verify this claim by a relevant t-test.
@@ -73,38 +76,81 @@ t.test(data, mu=15, alt="g")
 # 11.07333 
 # The mean waiting time is not greater than 15.
 
+# --------------------------------------------------------------------------------------------
+# c
 # Propose and perform a suitable sign tests for this problem.
 # Sign test	is categorical and quantitative. Can be used in place of One-sample t-test.
 
-# Propose a way to compute the powers of the t-test and sing test from b) at mu = 14 and mu = 13, comment. 
+# Propose a way to compute the powers of the t-test and sing test from b) at μ = 14 and μ = 13, comment. 
 
-power.signtest <- numeric(B)
-power.ttest <- numeric(B)
+stest.power <- binom.test(sum(data<14),n,p=0.5)[[3]] ; stest.power # 0.607
+ttest.power <- t.test(data, mu=14,alt="l")[[3]] ; ttest.power # 0.082
 
-for (i in 1:n) {
-  power.ttest[i] = t.test(data, mu=14)[[3]]; # 0.1645262
-  power.signtest[i] = binom.test(sum(data>15),n)[[3]];
-}
+# The power in mu = 14 for the t-test (0.165) is lower than the sign test (0.607).
+
+stest.power_2 <- binom.test(sum(data>13),n,p=0.5)[[3]] ; stest.power_2 # 0.607
+ttest.power_2 <- t.test(data, mu=13,alt="g")[[3]] ; ttest.power_2 # 0.824
+
+# The power in mu = 13 for the t-test (0.824) is higher than the sign test (0.607).
+
+# --------------------------------------------------------------------------------------------
+# d
+# Let p be the probability that a patient has to wait longer than 15.5 minutes.
+# The (1-α)-confidence interval for p is p̂±zα/2*sqrt(p̂(1-p̂)/n)
+
+# --------------------------------------------------------------------------------------------
+# e
+
+waiting.time <- data ; waiting.time
+sum(waiting.time > 15.5)
+
+more.than.fifteen <- data[data>15.5] ; more.than.fifteen
+
+binom.test(sum(data>15.5),n,p=0.5) # people who waits more than 15.5
 
 # 	Exact binomial test
-# data:  sum(data > 14) and B
-# number of successes = 6, number of trials = 1000, p-value < 2.2e-16
+
+# data:  sum(data > 15.5) and n
+# number of successes = 5, number of trials = 15, p-value = 0.3018
 # alternative hypothesis: true probability of success is not equal to 0.5
 # 95 percent confidence interval:
-#   0.002204982 0.013013423
+#   0.1182411 0.6161963
+# sample estimates:
+#  probability of success 
+#    0.3333333 
+
+binom.test(3,n,p=0.5) # 3 men who waits more than 15.5
+# 	Exact binomial test
+
+# data:  3 and n
+# number of successes = 3, number of trials = 15, p-value = 0.03516
+# alternative hypothesis: true probability of success is not equal to 0.5
+# 95 percent confidence interval:
+#  0.04331201 0.48089113
 # sample estimates:
 #   probability of success 
-# 0.006 
+# 0.2 
 
-# One Sample t-test
-# data:  data
-# t = -1.4668, df = 14, p-value = 0.1645
-# alternative hypothesis: true mean is not equal to 14
+binom.test(sum(data<=15.5),n,p=0.5) # people who waits less than 15.5
+# 	Exact binomial test
+
+# data:  sum(data <= 15.5) and n
+# number of successes = 10, number of trials = 15, p-value = 0.3018
+# alternative hypothesis: true probability of success is not equal to 0.5
 # 95 percent confidence interval:
-#   6.793962 15.352705
+#  0.3838037 0.8817589
 # sample estimates:
-#   mean of x 
-# 11.07333 
+#  probability of success 
+# 0.6666667 
 
-sum(power.signtest<0.05)/B # 0.985
-sum(power.ttest<0.05)/B # 0.985
+binom.test(6,n,p=0.5) # 6 women who waits less than 15.5
+# Exact binomial test
+
+# data:  6 and n
+# number of successes = 6, number of trials = 15, p-value = 0.6072
+# alternative hypothesis: true probability of success is not equal to 0.5
+# 95 percent confidence interval:
+#   0.1633643 0.6771302
+# sample estimates:
+#   probability of success 
+# 0.4 
