@@ -25,13 +25,13 @@ sd.of.data <- sd(data) ; sd.of.data
 
 # p̂ = mu = 0.21 (mean of the data)
 # 1-p̂ = 0.79
-# Confidence interval of 2 means 2E = 0.02, then E = 0.01
+# Confidence interval of 2 means 2E = 2, then E = 1
 # for %97 interval ; qnorm(0.97,mean=0.21,sd=0.14)
 
-minimal.sample.size <- qnorm(0.97)^2*0.21*0.79 / (0.01)^2
-minimal.sample.size # 5868.521
+minimal.sample.size <- qnorm(0.97)^2*0.21*0.79 / (1)^2
+minimal.sample.size # 0.5868521
 
-# The sample size needed to provide that the length of the 97%-CI is at least 5869
+# The sample size needed to provide that the length of the 97%-CI is at least 0.587
 
 # --------------------------------------------------------------------------------------------
 # a
