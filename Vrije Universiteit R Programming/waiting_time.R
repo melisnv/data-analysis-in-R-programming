@@ -28,7 +28,7 @@ sd.of.data <- sd(data) ; sd.of.data
 # Confidence interval of 2 means 2E = 2, then E = 1
 # for %97 interval ; qnorm(0.97,mean=0.21,sd=0.14)
 
-minimal.sample.size <- qnorm(0.97)^2*0.21*0.79 / (1)^2
+minimal.sample.size <- qnorm(0.97)^2*(0.21)^2*0.79 / (1)^2
 minimal.sample.size # 0.5868521
 
 # The sample size needed to provide that the length of the 97%-CI is at least 0.587
@@ -47,8 +47,8 @@ for (i in 1:B) {
   Tstar[i] = mean(Xstar)
 }
 
-Tstar25 = quantile(Tstar, 0.025) # computing T*(alpha/2)
-Tstar975=quantile(Tstar, 0.975) # computing T*(1-alpha/2)
+Tstar25 = quantile(Tstar, 0.015) # computing T*(alpha/2)
+Tstar975=quantile(Tstar, 0.985) # computing T*(1-alpha/2)
 
 c(2*mean.of.data - Tstar975, 2*mean.of.data - Tstar25) # computing (2T-T*(1-alpha/2),2T-T*(alpha/2))
 
