@@ -70,3 +70,5 @@ qqnorm(light1) ; qqnorm(light2)
 
 # Kolmogorov-Smirnov test
 hist(light1) ; hist(light2) 
+
+ks.test(light1,light2, exact = FALSE)
