@@ -50,5 +50,58 @@ qqnorm(residuals(data.anova)) ; plot(fitted(data.anova),residuals(data.anova))
 
 
 
-# Kruskal-Wallis test ( non-parametric)
+# Kruskal-Wallis test ( non-parametric alternative to ANOVA)
+# does not rely on normality, it is based on ranks
 
+ratdata <- read.table("datas/ratdata.txt",header = TRUE)
+ratdata # this data contains the number of worms in rats in 4 different treatment groups
+
+par(mfrow=c(1,2)) ;  boxplot(ratdata) ; stripchart(ratdata,vertical = TRUE)
+
+# create a data frame with the first columns containing all the outcomes and the second column that indicates the levels of factor
+
+ratframe <- data.frame(worms=as.vector(as.matrix(ratdata)),group=as.factor(rep(1:4,each=5)))
+ratframe
+
+is.factor(ratframe$group) ; is.numeric(ratframe$group)
+
+attach(ratframe)
+kruskal.test(worms,group)
+
+# Compare the result of a Kruskal test with an ANOVA test
+
+rataov = lm(worms~group) ; anova(rataov) # The one way ANOVA does not yield a significant difference.
+summary(rataov)
+
+qqnorm(rataov$residuals)
+
+# Permutation test
+
+dogs <- read.table("datas/dogs.txt", header = TRUE) ; dogs
+# the data concerns measures of plasma epinephrine in dogs for three different anesthesia drugs
+treat <- factor(rep(1:3,c(10,10,10)),labels = c("iso","halo","cyclo")) # group as a factor
+dogsdata <- data.frame(plasma = as.vector(as.matrix(dogs)),treat)
+dogsdata
+
+boxplot(plasma~treat, data = dogsdata) ; stripchart(dogsdata,vertical = TRUE)
+
+attach(dogsdata)
+func = function(x) sum (residuals(x)^2)
+M = 1000
+Tstar = numeric(M)
+
+for (i in 1:M) {
+  Treatstar = sample(treat) # permuting the labels
+  Tstar[i] = func(lm(plasma~Treatstar))
+  
+}
+
+res = func(lm(plasma~treat))
+res # 2.72474
+hist(Tstar)
+
+
+pl = sum(Tstar<res)/M
+pr = sum(Tstar>res)/M
+pl ; pr
+min(pl,pr)
