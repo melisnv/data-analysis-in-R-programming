@@ -101,7 +101,7 @@ res # 2.72474
 hist(Tstar)
 
 
-pl = sum(Tstar<res)/M
+pl = sum(Tstar<res)/M 
 pr = sum(Tstar>res)/M
 pl ; pr
 min(pl,pr)
