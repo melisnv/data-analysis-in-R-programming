@@ -92,12 +92,11 @@ compute.powers(1000,50,13,1,data)
 # TA : Calculate the margin with error with alpha and in order to calculate it exploit the pr= 0.53
 
 lower.bound <- 0.53 # pr
-margin.error <- mean.waiting.time - lower.bound ; margin.error
-
 length.of.data <- length(data)
 sd.error <- sd.of.data / sqrt(length.of.data) ; sd.error
-
-t.score <- margin.error / sd.error ; t.score # 5.284
+E <- qnorm(.975)*sd.error ; E # margin of error
+confidence.interval <- mean.waiting.time + c(-E, E) ; confidence.interval
+# The confidence interval is : 7.162728 14.983939
 
 # The researcher also reported that there were 3 men and 2 women among 5 patients who had to wait more than 15.5 minutes, 4 men and 6 women among the remaining 10 patients.
 # TA : creating a short matrix
@@ -105,4 +104,4 @@ t.score <- margin.error / sd.error ; t.score # 5.284
 new.data <- data.frame(waiting.time = as.vector(as.matrix(data)), gender = factor(sample(rep(1:2, c(7,8)))))
 new.data
 
-# check for appopriate test
+# check for appropriate test
