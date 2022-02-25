@@ -35,13 +35,10 @@ summary(additivemodel)
 qqnorm(residuals(additivemodel)) ; plot(fitted(additivemodel), residuals(additivemodel))
 
 # Estimating the rate "3" by method "A"
-# This question needs a check  ********************************************************
-data$method = as.factor(data$method == 'A')
-data$rate = as.factor(data$rate == 3)
-data.model = lm(hemoglobin~rate+method, data = data)
-anova(data.model)
-summary(data.model)
 
+sub.rate = subset(data, rate=="3")
+sub.method = subset(sub.rate, method=="A")
+mean.hemoglobin <- mean(sub.method$hemoglobin) ; mean.hemoglobin
 
 # Test the null hypothesis that the hemoglobin is the same for all rates by a one-way ANOVA test, ignoring the variable method. Is it right/wrong or useful/not useful to perform this test on this data set?
 
