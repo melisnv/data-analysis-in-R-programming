@@ -59,9 +59,7 @@ mean.hemoglobin2B <- mean(sub2.methodB$hemoglobin) ; mean.hemoglobin2B
 mean.hemoglobin3B <- mean(sub3.methodB$hemoglobin) ; mean.hemoglobin3B
 mean.hemoglobin4B <- mean(sub3.methodB$hemoglobin) ; mean.hemoglobin4B
 
-
 # Test the null hypothesis that the hemoglobin is the same for all rates by a one-way ANOVA test, ignoring the variable method. Is it right/wrong or useful/not useful to perform this test on this data set?
-
 hemoglobin.dataframe <- data.frame(hemoglobin = as.vector(as.matrix(data$hemoglobin)), rate = factor(rep(1:4,each=20)))
 hemoglobin.dataframe  
 
@@ -76,5 +74,3 @@ qqnorm(residuals(hemoglobin.model)) ; plot(fitted(hemoglobin.model), residuals(h
 
 # A one-way ANOVA only involves one factor or independent variable, whereas there are two independent variables in a two-way ANOVA
 # In a one-way ANOVA, the one factor or independent variable analyzed has three or more categorical groups. A two-way ANOVA instead compares multiple groups of two factors. 
-
-
