@@ -23,51 +23,66 @@ plot(oxidant,humidity) ; plot(oxidant,wind)
 airpolutionlmtmp = lm(oxidant~temperature)
 order(abs(residuals(airpolutionlmtmp)))
 
-o5 = rep(0,30) ; o5[5] = 1 ; o5 # 5th outliers
-airpolutionlm5 =  lm(oxidant~temperature+o5) ;
-summary(airpolutionlm5)
+o4 = rep(0,30) ; o4[4] = 1 ; o4 # 4th outliers
+airpolutionlm4 =  lm(oxidant~temperature+o4) ;
+summary(airpolutionlm4)
 
-o1 = rep(0,30) ; o1[1] = 1 ; o1 # 30th outliers
-airpolutionlm1 =  lm(oxidant~temperature+o1)
-summary(airpolutionlm1) 
-# outliers are not significant since the coefficient for explanatory
+# todo: add whole outliers for all of them ************************************
 
+# the coefficient for explanatory variable u4 is significantly different from 0 and the outlier is significant
+# whole model
+lmwind11 = lm(oxidant~wind+temperature+humidity+insolation)
+order(abs(residuals(lmwind11)))
+plot(residuals(lmwind11))
+
+o11 = rep(0,30) ; o11[11] = 1 ; o11 # 11th outliers
+airpolutionlm11 =  lm(oxidant~wind+o11)
+summary(airpolutionlm11)
+
+# partly model
 airpolutionlmwind = lm(oxidant~wind)
 order(abs(residuals(airpolutionlmwind)))
 plot(residuals(airpolutionlmwind))
 
-o8 = rep(0,30) ; o8[8] = 1 ; o8 # 17th outliers
-airpolutionlm8 =  lm(oxidant~wind+o8)
-summary(airpolutionlm8)
+o22 = rep(0,30) ; o22[22] = 1 ; o22 # 22th outliers
+airpolutionlm22 =  lm(oxidant~wind+o22)
+summary(airpolutionlm22)
+# the coefficient for explanatory variable u22 is significantly different from 0 and the outlier is significant
 
-o1 = rep(0,30) ; o1[1] = 1 ; o1 # 30th outliers
-airpolutionlm1 =  lm(oxidant~wind+o1)
-summary(airpolutionlm1)
 
-huberlmwind = lm(oxidant~wind)
-round(cooks.distance(huberlmwind),2)
-plot(1:30,cooks.distance(huberlmwind),type = 'b') # 8th point
+# influence point
+lmwind = lm(oxidant~wind)
+round(cooks.distance(lmwind),2)
+plot(1:30,cooks.distance(lmwind),type = 'b') # 8th point
 
-huberlmtemp = lm(oxidant~temperature)
-round(cooks.distance(huberlmtemp),2)
-plot(1:30,cooks.distance(huberlmtemp),type = 'b') # 4th point
+lmtemp = lm(oxidant~temperature)
+round(cooks.distance(lmtemp),2)
+plot(1:30,cooks.distance(lmtemp),type = 'b') # 4th point
 
 plot(temperature~wind)
 pairs(data.airpollution)
 round(cor(data.airpollution),2)
 # checking the collinearity
-# oxidant ~temperature correlation is the highest 0.76
+# oxidant ~ temperature correlation is the highest 0.76
 
 
 # b
 # Use the added variable plot to depict the relationship between response oxidant and predictor wind.
 
+xmodel <- lm(wind~temperature+humidity+insolation)
+ymodel <- lm(oxidant~temperature+humidity+insolation)
+avPlots(xmodel)
+avPlots(ymodel)
+
 x=residuals(lm(wind~temperature+humidity+insolation))
 y=residuals(lm(oxidant~temperature+humidity+insolation))
+
+coef(xmodel) ; coef(ymodel)
 plot(x,y,main="Added variable plot for + wind", xlab="residual of wind",ylab="residual of oxidant")
 
+# todo : Answer this question. *******************************************************
 #  What is the meaning of the slope of fitted regression for this scatter plot? 
-# not so many observations. no pattern can be seen however, there is a slight aggregation around 0
+# not so many observations. no pattern can be seen however, there is a slight aggregation between 0-5
 
 # c
 # Fit a linear regression model to the data. Use both the step-up and step-down methods to find the best model.
@@ -77,7 +92,7 @@ summary(lm(oxidant~wind))
 summary(lm(oxidant~temperature))
 summary(lm(oxidant~humidity))
 summary(lm(oxidant~insolation))
-# Thus, the first variable to add is wind
+# Thus, the first variable to add is winds
 
 summary(lm(oxidant~wind+temperature)) # we can include temperature since it's significant and R-squared is higher.
 summary(lm(oxidant~wind+humidity)) # we can not add humidity since it's not significant
