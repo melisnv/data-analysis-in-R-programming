@@ -76,8 +76,6 @@ avPlots(ymodel)
 
 x=residuals(lm(wind~temperature+humidity+insolation))
 y=residuals(lm(oxidant~temperature+humidity+insolation))
-
-coef(xmodel) ; coef(ymodel)
 plot(x,y,main="Added variable plot for + wind", xlab="residual of wind",ylab="residual of oxidant")
 
 # todo : Answer this question. *******************************************************
