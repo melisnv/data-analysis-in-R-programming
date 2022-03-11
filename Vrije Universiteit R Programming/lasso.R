@@ -36,7 +36,20 @@ lambda.min; lambda.1se # best lambda by cross validation
 coef(lasso.model, s= lasso.cv$lambda.min)
 coef(lasso.model, s= lasso.cv$lambda.1se)
 
+# lambda.min is the value of lambda that gives minimum mean cross-validated 
+# error. The other lambda saved is lambda.1se, which gives the most regularized 
+# model such that error is within one standard error of the minimum. 
 
+lasso.pred1=predict(lasso.model,s=lambda.min,newx=x.test) 
+lasso.pred2=predict(lasso.model,s=lambda.1se,newx=as.matrix(x.test))
+mse1.lasso=mean((y.test-lasso.pred1)^2); mse1.lasso
+mse2.lasso=mean((y.test-lasso.pred2)^2); mse2.lasso
+
+# By default, the glmnet function standardizes all the independent 
+# variables, but here the dependent variable can also be standardized 
+# by the function standardize=function(x){(x-mean(x))/sd(x)}).
+# Then one may want not to include an intercept in lm mand glmnet models, 
+# because all the variables have already been standardized to a mean of zero. 
 
 
 
