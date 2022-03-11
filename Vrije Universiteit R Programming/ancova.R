@@ -24,3 +24,26 @@ for (i in 1:3) {
 fiber3 = lm(strength~type*thickness, data = fiber)
 anova(fiber3) # the hypthesis Ho : β1 = β2 is not rejected
 summary(fiber3)
+
+pvc <- read.table("datas/pvc.txt",header=TRUE)
+pvc
+
+pvc$operator = as.factor(pvc$operator) ; pvc$resin = as.factor(pvc$resin)
+pvc.anova = lm(psize~operator*resin, data = pvc)
+summary(pvc.anova)
+
+library(multcomp)
+pvcmult = glht(pvc.anova, linfct = mcp(resin='Tukey'))
+summary(pvcmult)
+
+p.raw =  summary(pvc.anova)$coef[,4] # vector of individual p-values
+p.raw = p.raw[order(p.raw)] # order the p-values
+p.val = as.data.frame(p.raw) ; p.val
+p.val$Bonferroni = p.adjust(p.val$p.raw, method="bonferroni")
+p.val$Holm = p.adjust(p.val$p.raw, method="holm")
+p.val$Hochberg = p.adjust(p.val$p.raw, method="hochberg")
+p.val$BH = p.adjust(p.val$p.raw, method="BH")
+p.val$BY = p.adjust(p.val$p.raw, method="BY") ; round(p.val,3)
+
+
+
