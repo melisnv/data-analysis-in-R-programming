@@ -25,17 +25,15 @@ par(mfrow=c(1,2)) ; boxplot(nausea,drug,data = nausea.data) ; plot(nausea,drug)
 N <- 1000 ; Tstar <- numeric(N)
 t0 <- n$statistic
 
-mystat=function(x) sum(residuals(x)^2)
+mystat=function(x) {chisq.test(x)$statistic}
 for (i in 1:N) {
-  nauseaStar <- sample(nausea.data$drug)
-  Tstar[i]=mystat(lm(nausea.data$nausea~nauseaStar))
+  nauseaStar <- table(sample(nausea.data$drug),nausea.data$nausea)
+  Tstar[i]=mystat(nauseaStar)
 }
 hist(Tstar)
-myt=mystat(lm(nausea.data$nausea~nausea.data$drug))
+myt=mystat(data.nausea)
 
-pl=sum(Tstar<myt)/N
-pr=sum(Tstar>myt)/N
-min(pl,pr) # 0.031
+pr=sum(Tstar>myt)/N ; pr # 0.023
 # The treatment is clearly significant.
 
 # Use as test statistic the chi square test statistic for contingency tables, which can be extracted from the output of the command chisq.test
