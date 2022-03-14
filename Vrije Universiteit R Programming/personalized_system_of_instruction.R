@@ -44,21 +44,13 @@ plot(c(0,coef(psiglm)[2:3]),type = "l") # coefficients for different gpa categor
 # todo : ******************************************************************************
 # Estimate the relative change in odds of passing the assignment rendered by instructing students with psi rather than the standard method (for an arbitrary student). What is the interpretation of this number? Is it dependent on gpa?
 
-interaction.psi <- glm(passed ~ trunc.gpa + psi, data = psi.data, family = binomial)
+interaction.psi <- glm(passed ~ psi + gpa, data = psi.data, family = binomial)
 summary(interaction.psi)
 fitted(interaction.psi)
 
-# group(gpa3,psi1)
-odds1 <- exp((-2.940)+(1.639)+(2.091)) ; odds1 # 2.203396
+round(exp(interaction.psi$coefficients), 5)
 
-# group(gpa4,psi1)
-odds2 <- exp((-2.940)+(19.720)+(2.091)) ; odds2 # 156881296
-
-# group(gpa3,psi0)
-odds3 <- exp((-2.940)+(1.639)+(0)) ; odds3 # 0.2722594
-
-# group(gpa4,psi0)
-odds4 <- exp((-2.940)+(19.720)+(0)) ; odds4 # 19384804
+drop1(interaction.psi,test="Chisq")
 
 # d
 # todo : ******************************************************************************
@@ -75,6 +67,4 @@ fisher.test(ctable2.psi) # 0.0265
 # e
 # todo : ******************************************************************************
 # Given the way the experiment was conducted, is this second approach wrong? Name both an advantage and a disadvantage of the two approaches, relative to each other.
-
-
 
