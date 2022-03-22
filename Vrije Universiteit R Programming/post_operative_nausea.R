@@ -6,7 +6,7 @@ data.nausea
 # Yes, it's appropriate since we have two categorical variables and independence of observations is ensured.
 
 # 2. If yes, perform this test in order to test whether the different medicines work equally well against nausea.
-n <- chisq.test(data.nausea) ; n[[3]] # 0.036
+n <- chisq.test(data.nausea) ; n[[3]] # 0.03642928
 # p-value is 0.03 which is significant. Therefore, Ho: row variable and column variable are independent, is rejected.
 residuals(n)
 #   - From this table we can see that Chlorpromazine has less incidence of nausea, 
@@ -25,6 +25,7 @@ par(mfrow=c(1,2)) ; boxplot(nausea,drug,data = nausea.data) ; plot(nausea,drug)
 N <- 1000 ; Tstar <- numeric(N)
 t0 <- n$statistic
 
+# PERMUTATION TEST
 mystat=function(x) {chisq.test(x)$statistic}
 for (i in 1:N) {
   nauseaStar <- table(sample(nausea.data$drug),nausea.data$nausea)
@@ -33,13 +34,13 @@ for (i in 1:N) {
 hist(Tstar)
 myt=mystat(data.nausea)
 
-pr=sum(Tstar>myt)/N ; pr # 0.023
+pr=sum(Tstar>myt)/N ; pr # 0.031
 # The treatment is clearly significant.
 
 # Use as test statistic the chi square test statistic for contingency tables, which can be extracted from the output of the command chisq.test
 
 ctable.nausea <- table(nausea.data)
-n <- chisq.test(ctable.nausea) ; n[[3]] #0.036
+n <- chisq.test(ctable.nausea) ; n[[3]] # 0.03642928
 # This is in line with the results using the first 
 
 # Question c:

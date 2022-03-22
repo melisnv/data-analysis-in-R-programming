@@ -101,7 +101,4 @@ confidence.interval <- mean.waiting.time + c(-E, E) ; confidence.interval
 # The researcher also reported that there were 3 men and 2 women among 5 patients who had to wait more than 15.5 minutes, 4 men and 6 women among the remaining 10 patients.
 # TA : creating a short matrix
 
-new.data <- data.frame(waiting.time = as.vector(as.matrix(data)), gender = factor(sample(rep(1:2, c(7,8)))))
-new.data
-
-# check for appropriate test
+prop.test(c(3,2),c(7,8))

@@ -10,6 +10,7 @@ rbind(rep(1:I,each=N*J), rep(1:J,N*I),sample(1:(N*I*J)))
 
 
 # Perform the two-way ANOVA to test for effects of factors rate, method and their interaction on the response variable hemoglobin. Comment on your findings. 
+attach(data)
 par(mfrow=c(1,2)) ; boxplot(hemoglobin~rate) ; boxplot(hemoglobin~method) # Interactions are not visible
 
 interaction.plot(rate,method,hemoglobin) ; interaction.plot(method,rate,hemoglobin)

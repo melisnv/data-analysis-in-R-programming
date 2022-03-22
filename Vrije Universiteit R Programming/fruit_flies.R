@@ -22,20 +22,25 @@ summary(fruitflies.lm1) # activity is significant
 
 # What are the estimated longevities for the three conditions?
 
-iso = mean(fruitflies['loglongevity'][fruitflies['activity']=='isolated'])
-low = mean(fruitflies['loglongevity'][fruitflies['activity']=='low'])
-high = mean(fruitflies['loglongevity'][fruitflies['activity']=='high'])
+iso = fruitflies[fruitflies['activity']=='isolated',]
+low = fruitflies[fruitflies['activity']=='low',]
+high = fruitflies[fruitflies['activity']=='high',]
+
+mean(low$loglongevity) #  3.999836
+exp(3.999836) # 54.5892
+
 iso ; low ; high
+# 4.119349 3.999836 3.602124
 
 # negative relationship
 
 
-estimated.longevities <- c(0,0,0)
-for (i in 1:3) {
-  base <- summary(fruitflies.lm1)$coeff[i]
-  estimated.longevities[i] <- summary(fruitflies.lm1)$coeff[i]
-}
-estimated.longevities
+#estimated.longevities <- c(0,0,0)
+#for (i in 1:3) {
+#  base <- summary(fruitflies.lm1)$coeff[i]
+#  estimated.longevities[i] <- summary(fruitflies.lm1)$coeff[i]
+#}
+#estimated.longevities
 
 par(mfrow=c(1,2))
 qqnorm(residuals(fruitflies.lm1)) ; plot(residuals(fruitflies.lm1),fitted(fruitflies.lm1))
@@ -52,24 +57,51 @@ qqnorm(residuals(fruitflies.lm2)) ; plot(residuals(fruitflies.lm2),fitted(fruitf
 
 drop1(fruitflies.lm2,test="F") # both thorax and activity are significant, but with throax activity's significance increased
 
-# todo : ***************************************************
 # Does sexual activity increase or decrease longevity? What are the estimated longevities for the three groups, for flies with the minimal and maximal thorax lengths?
 # Since β = 2.97899 > 0, the higher the throax, number of days until death increases. Isolated activity has the highest effect. Factor activity is significant.
-estimated.longevities.with.thorax <- c(0,0,0)
-for (i in 1:4) {
-  estimated.longevities.with.thorax[i] <- summary(fruitflies.lm2)$coeff[i]
-}
-estimated.longevities.with.thorax
 
-qqnorm(residuals(fruitflies.lm2)) ; plot(residuals(fruitflies.lm2),fitted(fruitflies.lm2))
+thr_actlm = lm(loglongevity~thorax+activity, data = fruitflies)
+
+iso_thr_max = data.frame(activity="isolated",thorax = max(fruitflies$thorax))
+predict(thr_actlm,iso_thr_max,type = "response") #4.429164
+exp(4.429164)# 83.86128 ~ 83/84 days
+
+iso_thr_min = data.frame(activity="isolated",thorax = min(fruitflies$thorax))
+predict(thr_actlm,iso_thr_min,type = "response") #3.535467
+exp(3.535467)# 34.31103 ~ 34 days
+
+low_thr_max = data.frame(activity="low",thorax = max(fruitflies$thorax))
+predict(thr_actlm,low_thr_max,type = "response") #4.304884
+exp(4.304884)#74.06062 ~ 74 days
+
+low_thr_min = data.frame(activity="low",thorax = min(fruitflies$thorax))
+predict(thr_actlm,low_thr_min,type = "response") #3.411188
+exp(3.411188)#30.30122 ~ 30 days
+
+high_thr_max = data.frame(activity="high",thorax = max(fruitflies$thorax))
+predict(thr_actlm,high_thr_max,type = "response") #4.019183
+exp(4.019183)#55.65562 ~ 55/56 days
+
+high_thr_min = data.frame(activity="high",thorax = min(fruitflies$thorax))
+predict(thr_actlm,high_thr_min,type = "response") #3.125486
+exp(3.125486)#22.77096 ~ 22/23 days
 
 # *********************************************************************************
-highData = data[which(data['activity']=='high'),]
+highData = fruitflies[which(fruitflies['activity']=='high'),]
 highData['loglongevity'][which.max(highData$thorax),] # MAX 3.78419
 highData['loglongevity'][which.min(highData$thorax),] # MIN 2.772589
 
-# ALTERNATIVELY
-data['loglongevity'][which.max(data$thorax),]
+lowData = fruitflies[which(fruitflies['activity']=='low'),]
+lowData['loglongevity'][which.max(lowData$thorax),] # MAX 3.871201
+lowData['loglongevity'][which.min(lowData$thorax),] # MIN 3.044522
+
+isolatedData = fruitflies[which(fruitflies['activity']=='isolated'),]
+isolatedData['loglongevity'][which.max(isolatedData$thorax),] # MAX 4.317488
+isolatedData['loglongevity'][which.min(isolatedData$thorax),] # MIN 3.688879
+
+# ALTERNATIVELY for all the groups not individually
+fruitflies['loglongevity'][which.max(fruitflies$thorax),] # 4.317488
+
 
 # *********************************************************************************
 
@@ -87,12 +119,16 @@ boxplot(loglongevity~thorax,data = fruitflies,main = "Longetivity by Thorax",
         xlab = "Thorax",ylab = "Log of Longetivity")
 
 fruitflies.lm3 <- lm(loglongevity~thorax, data = fruitflies)
-anova(fruitflies.lm3)
-summary(fruitflies.lm3)
+anova(fruitflies.lm3) # 3.151e-13
+summary(fruitflies.lm3) # 3.15e-1 significant
 
 fruitflies.lm4 <- lm(loglongevity~activity+thorax, data = fruitflies)
-anova(fruitflies.lm4)
-summary(fruitflies.lm4)
+anova(fruitflies.lm4) # 1.139e-14
+summary(fruitflies.lm4) # 1.14e-14
+
+deneme.lm4 <- lm(loglongevity~thorax+activity, data = fruitflies)
+anova(deneme.lm4) # 
+summary(deneme.lm4) # 
 
 interaction.lm <- lm(loglongevity~activity*thorax, data = fruitflies)
 anova(interaction.lm)
@@ -100,7 +136,6 @@ summary(interaction.lm)
 # interaction term is not significant.
 
 # d
-# todo : ****************************************
 # Which of the two analyses, without or with thorax length, do you prefer? Is one of the analyses wrong? 
 
 model <- aov(thorax ~ activity, data = fruitflies)
@@ -109,7 +144,6 @@ summary(model)
 # Both analysis are correct and useful.
 
 # e
-# todo : ****************************************
 # Perform the ancova analysis with the number of days as the response, rather than its logarithm. Was it wise to use the logarithm as response?
 
 plot(longevity~thorax, pch=as.character(activity))
@@ -127,6 +161,8 @@ drop1(longevity.lm, test = "F")
 longevity.lm1 <- lm(longevity~activity*thorax, data = fruitflies)
 anova(longevity.lm1)
 summary(longevity.lm1)
+
+
 
 par(mfrow=c(1,2))
 qqnorm(residuals(longevity.lm)) ; plot(residuals(longevity.lm),fitted(longevity.lm))

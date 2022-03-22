@@ -6,6 +6,7 @@ summary(data.airpollution)
 # Make some graphical summaries of the data.
 pairs(data.airpollution)
 boxplot(data.airpollution) # There are no straight line in the scatter plot.
+# humidity and insolation have outliers
 
 attach(data.airpollution)
 par(mfrow=c(1,3))
@@ -20,24 +21,25 @@ plot(oxidant,humidity) ; plot(oxidant,wind)
 
 # Investigate the problem of potential and influence points, and the problem of collinearity.
 
+# whole model
+lmwind11 = lm(oxidant~temperature+wind+humidity+insolation)
+order(abs(residuals(lmwind11)))
+plot(residuals(lmwind11))
+
+o11 = rep(0,30) ; o11[11] = 1 ; o11 # 11th outliers
+airpolutionlm11 =  lm(oxidant~temperature+wind+humidity+insolation+o11)
+summary(airpolutionlm11)
+# the coefficient for explanatory variable u11(0.0171) is insignificantly different from 0 and the outlier is insignificant
+
+# partly model ( temperature and wind)
+
 airpolutionlmtmp = lm(oxidant~temperature)
 order(abs(residuals(airpolutionlmtmp)))
 
 o4 = rep(0,30) ; o4[4] = 1 ; o4 # 4th outliers
 airpolutionlm4 =  lm(oxidant~temperature+o4) ;
 summary(airpolutionlm4)
-
-# todo: add whole outliers for all of them ************************************
-
 # the coefficient for explanatory variable u4 is significantly different from 0 and the outlier is significant
-# whole model
-lmwind11 = lm(oxidant~wind+temperature+humidity+insolation)
-order(abs(residuals(lmwind11)))
-plot(residuals(lmwind11))
-
-o11 = rep(0,30) ; o11[11] = 1 ; o11 # 11th outliers
-airpolutionlm11 =  lm(oxidant~wind+o11)
-summary(airpolutionlm11)
 
 # partly model
 airpolutionlmwind = lm(oxidant~wind)
@@ -51,6 +53,12 @@ summary(airpolutionlm22)
 
 
 # influence point
+
+oxilm = lm(oxidant~temperature+wind+humidity+insolation)
+oxi_c = round(cooks.distance(oxilm), 2) # 23rd is the most influential day with respect to the Cook's distance
+plot(1:30, oxi_c, type = "b")
+oxi_c #influence point: 23th - 0.83
+
 lmwind = lm(oxidant~wind)
 round(cooks.distance(lmwind),2)
 plot(1:30,cooks.distance(lmwind),type = 'b') # 8th point
@@ -58,6 +66,10 @@ plot(1:30,cooks.distance(lmwind),type = 'b') # 8th point
 lmtemp = lm(oxidant~temperature)
 round(cooks.distance(lmtemp),2)
 plot(1:30,cooks.distance(lmtemp),type = 'b') # 4th point
+
+lmhumid = lm(oxidant~humidity)
+round(cooks.distance(lmhumid),2)
+plot(1:30,cooks.distance(lmhumid),type = 'b') # 30th point
 
 plot(temperature~wind)
 pairs(data.airpollution)
@@ -78,7 +90,6 @@ x=residuals(lm(wind~temperature+humidity+insolation))
 y=residuals(lm(oxidant~temperature+humidity+insolation))
 plot(x,y,main="Added variable plot for + wind", xlab="residual of wind",ylab="residual of oxidant")
 
-# todo : Answer this question. *******************************************************
 #  What is the meaning of the slope of fitted regression for this scatter plot? 
 # not so many observations. no pattern can be seen however, there is a slight aggregation between 0-5
 
