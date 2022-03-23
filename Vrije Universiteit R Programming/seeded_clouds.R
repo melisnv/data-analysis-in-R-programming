@@ -102,7 +102,8 @@ ks.test(c1, "pnorm")
 
 # Using an appropriate test, verify whether the median precipitation for seeded clouds is less than 300. Next, design and perform a test to check whether the fraction of the seeded clouds with the precipitation less than 30 is at most 25%.
 
-wilcox.test(c1,mu=300, alt='l')
-binom.test(sum(c1<30), 26, p=0.25, alt='l')
-prop.test(sum(c1<30), 26, p=0.25, alt='l')
-# p-value = 0.1686 is higher than .05 hence we do not reject the null hypothesis.
+meadian.data <- median(data$seeded) ; median.data
+
+binom.test(sum(data$seeded < 300), 26, p=0.5, alt='l') # p-value = 0.9622
+
+binom.test(sum(c1<30), 26, p=0.25, alt='l') # p-value = 0.08019
