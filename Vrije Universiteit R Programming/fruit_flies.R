@@ -25,8 +25,11 @@ summary(fruitflies.lm1) # activity is significant
 iso = fruitflies[fruitflies['activity']=='isolated',]
 low = fruitflies[fruitflies['activity']=='low',]
 high = fruitflies[fruitflies['activity']=='high',]
+# low2 = fruitflies[fruitflies$activity=='low',]
+
 
 mean(low$loglongevity) #  3.999836
+mean(low$longevity) #  3.999836
 exp(3.999836) # 54.5892
 
 iso ; low ; high
@@ -162,7 +165,11 @@ longevity.lm1 <- lm(longevity~activity*thorax, data = fruitflies)
 anova(longevity.lm1)
 summary(longevity.lm1)
 
+moddy1=lm(longevity~activity+ thorax)
+moddy2=lm(longevity~thorax+activity)
 
+anova(moddy1) # thorax 2.62e-12
+summary(moddy2) # thorax 2.62e-12
 
 par(mfrow=c(1,2))
 qqnorm(residuals(longevity.lm)) ; plot(residuals(longevity.lm),fitted(longevity.lm))

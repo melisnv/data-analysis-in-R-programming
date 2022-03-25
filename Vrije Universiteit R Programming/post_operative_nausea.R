@@ -7,7 +7,7 @@ data.nausea
 
 # 2. If yes, perform this test in order to test whether the different medicines work equally well against nausea.
 n <- chisq.test(data.nausea) ; n[[3]] # 0.03642928
-# p-value is 0.03 which is significant. Therefore, Ho: row variable and column variable are independent, is rejected.
+# p-value is 0.036 which is significant. Therefore, Ho: row variable and column variable are independent, is rejected.
 residuals(n)
 #   - From this table we can see that Chlorpromazine has less incidence of nausea, 
 #   - 100mg Pentobarbital has the relatively higher nausea effect.
@@ -39,7 +39,7 @@ pr=sum(Tstar>myt)/N ; pr # 0.031
 
 # Use as test statistic the chi square test statistic for contingency tables, which can be extracted from the output of the command chisq.test
 
-ctable.nausea <- table(nausea.data)
+ctable.nausea <- table(nausea.data) ; ctable.nausea
 n <- chisq.test(ctable.nausea) ; n[[3]] # 0.03642928
 # This is in line with the results using the first 
 

@@ -29,7 +29,7 @@ plot(residuals(lmwind11))
 o11 = rep(0,30) ; o11[11] = 1 ; o11 # 11th outliers
 airpolutionlm11 =  lm(oxidant~temperature+wind+humidity+insolation+o11)
 summary(airpolutionlm11)
-# the coefficient for explanatory variable u11(0.0171) is insignificantly different from 0 and the outlier is insignificant
+# the coefficient for explanatory variable o11(0.0171) is insignificantly different from 0 and the outlier is insignificant
 
 # partly model ( temperature and wind)
 
@@ -39,7 +39,7 @@ order(abs(residuals(airpolutionlmtmp)))
 o4 = rep(0,30) ; o4[4] = 1 ; o4 # 4th outliers
 airpolutionlm4 =  lm(oxidant~temperature+o4) ;
 summary(airpolutionlm4)
-# the coefficient for explanatory variable u4 is significantly different from 0 and the outlier is significant
+# the coefficient for explanatory variable o4 is significantly different from 0 and the outlier is significant
 
 # partly model
 airpolutionlmwind = lm(oxidant~wind)
@@ -81,17 +81,13 @@ round(cor(data.airpollution),2)
 # b
 # Use the added variable plot to depict the relationship between response oxidant and predictor wind.
 
-xmodel <- lm(wind~temperature+humidity+insolation)
-ymodel <- lm(oxidant~temperature+humidity+insolation)
-avPlots(xmodel)
-avPlots(ymodel)
-
 x=residuals(lm(wind~temperature+humidity+insolation))
-y=residuals(lm(oxidant~temperature+humidity+insolation))
+y=residuals(lm(oxidant~temperature+humidity+insolation)) 
+summary(lm(oxidant~temperature+wind+humidity+insolation)) # estimate will give us the slope of all of them
 plot(x,y,main="Added variable plot for + wind", xlab="residual of wind",ylab="residual of oxidant")
 
 #  What is the meaning of the slope of fitted regression for this scatter plot? 
-# not so many observations. no pattern can be seen however, there is a slight aggregation between 0-5
+# wind has a negative slope while temperature has a positive and highest slope.
 
 # c
 # Fit a linear regression model to the data. Use both the step-up and step-down methods to find the best model.
@@ -109,13 +105,13 @@ summary(lm(oxidant~wind+insolation)) # insolation with wind is not highly signif
 
 summary(lm(oxidant~wind+temperature+insolation)) # we can see that insolation together with wind and temperature is not significant so do not add this.
 # summary(lm(oxidant~wind+temperature) seems like correct model.
-# Resulting model : oxidant = -5.20334 -0.42706 * wind + 0.52035 * temperature
+# Resulting model : oxidant = -5.20334 -0.42706 * wind + 0.52035 * temperature  + error
 
 # Step-down Model
 summary(lm(oxidant~wind+temperature+humidity+insolation)) # with 0.65728 insolation has the highest value, so remove it
 summary(lm(oxidant~wind+temperature+humidity)) # humidity has 0.131 so we'll remove it
 summary(lm(oxidant~wind+temperature)) # there is no insignificant variables left.
-# Resulting model : oxidant = -5.20334  + -0.42706 * wind + 0.52035 * temperature
+# Resulting model : oxidant = -5.20334  + -0.42706 * wind + 0.52035 * temperature + error
 
 # d
 # Determine 95% confidence and prediction intervals for oxidant using the model you preferred in c) for wind=33, temperature=54, humidity=77 and insolation=21.

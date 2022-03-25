@@ -18,6 +18,8 @@ psi.data$trunc.gpa = as.factor(trunc(psi.data$gpa))
 psiglm <- glm(passed ~ psi + gpa, data = psi.data, family = binomial)
 summary(psiglm) # psi : 0.02470  gpa : 0.01224
 
+another.same.model <- glm(passed~psi+gpa+gpa:psi,data=psi.data,family=binomial)
+summary(another.same.model)
 
 inter.psiglm <- glm(passed ~ psi* gpa, data = psi.data, family = binomial)
 summary(inter.psiglm)
