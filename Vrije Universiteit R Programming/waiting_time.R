@@ -26,7 +26,7 @@ round(lower_bound,3) ; round(upper_bound,3)
 # Construct a 97%-CI for μ Evaluate the sample size needed to provide that the length 
 # of the 97%-CI is at most 2. Compute a bootstrap 97%-CI for μ and compare it to the above CI. 
 
-margin <- 1
+margin <- 1 # E
 z.score <- qnorm(0.985) # 2.17
 minimal.sample.size <- ((z.score^2)*(sd.of.data^2))/(margin^2)
 minimal.sample.size

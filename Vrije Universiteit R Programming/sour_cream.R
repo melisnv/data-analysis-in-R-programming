@@ -100,7 +100,7 @@ friedman.test.pvalue
 # The test result reinforces what we have already discovered previously, the null hypothesis is rejected.
 
 # d
-creamlmer=lmer(acidity~starter+(1|position)+(1|batch), data=creamdata, REML=FALSE)
+creamlmer=lmer(acidity~starter+(1|batch), data=creamdata, REML=FALSE)
 anova.of.lmer <- round(anova(creamlmer), digits = 3)
 anova.of.lmer
 

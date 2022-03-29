@@ -29,7 +29,7 @@ plot(residuals(lmwind11))
 o11 = rep(0,30) ; o11[11] = 1 ; o11 # 11th outliers
 airpolutionlm11 =  lm(oxidant~temperature+wind+humidity+insolation+o11)
 summary(airpolutionlm11)
-# the coefficient for explanatory variable o11(0.0171) is insignificantly different from 0 and the outlier is insignificant
+# the coefficient for explanatory variable o11(0.0171) is insignificantly different from 0 and the outlier is significant
 
 # partly model ( temperature and wind)
 

@@ -37,3 +37,5 @@ summary(awardglm.interaction) # their interaction is not significant
 new.data = data.frame(prog="1",math=55)
 predict(awardglm2,new.data,type = "response") # 0.6671683 
 predict(awardglm.interaction,new.data,type = "response") # 0.6323158 
+
+fitted(awardglm.interaction)
